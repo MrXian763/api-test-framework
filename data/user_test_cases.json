@@ -1,0 +1,39 @@
+[
+  {
+    "case_id": "USER_001",
+    "title": "使用合法数据创建用户",
+    "method": "POST",
+    "path": "/users",
+    "data": {
+      "name": "测试用户",
+      "email": "test@example.com",
+      "username": "testuser"
+    },
+    "expected_status": 201,
+    "expected_fields": ["id", "name", "email", "username", "created_at"]
+  },
+  {
+    "case_id": "USER_002",
+    "title": "缺少必填字段创建用户",
+    "method": "POST",
+    "path": "/users",
+    "data": {
+      "name": "测试用户"
+    },
+    "expected_status": 400,
+    "expected_error": "Email is required"
+  },
+  {
+    "case_id": "USER_003",
+    "title": "使用已存在邮箱创建用户",
+    "method": "POST",
+    "path": "/users",
+    "data": {
+      "name": "测试用户",
+      "email": "existing@example.com",
+      "username": "anotheruser"
+    },
+    "expected_status": 409,
+    "expected_error": "Email already exists"
+  }
+]

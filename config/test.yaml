@@ -1,0 +1,24 @@
+api:
+  base_url: "https://api.example.com"
+  timeout: 10
+  retry:
+    total: 3
+    backoff_factor: 1
+    status_forcelist: [429, 500, 502, 503, 504]
+    attempts: 2
+    wait_seconds: 1
+  headers:
+    Content-Type: "application/json"
+    Accept: "application/json"
+
+database:
+  host: "db-test.example.com"
+  port: 3306
+  user: "test_user"
+  password: "${DB_PASSWORD}"  # 从环境变量获取
+  name: "test_db"
+
+test:
+  user:
+    default_role: "user"
+    admin_role: "admin"
