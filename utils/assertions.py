@@ -3,9 +3,10 @@ import jmespath
 from jsonschema import validate, ValidationError
 from utils.logger import logger
 
+
 class Assertions:
     """断言工具类"""
-    
+
     @staticmethod
     def assert_equal(actual, expected, message="值不相等"):
         """断言相等"""
@@ -15,7 +16,7 @@ class Assertions:
         except AssertionError as e:
             logger.error(f"断言失败: {str(e)}")
             raise
-    
+
     @staticmethod
     def assert_not_equal(actual, expected, message="值相等"):
         """断言不相等"""
@@ -25,7 +26,7 @@ class Assertions:
         except AssertionError as e:
             logger.error(f"断言失败: {str(e)}")
             raise
-    
+
     @staticmethod
     def assert_in(actual, expected, message="实际值不在预期列表中"):
         """断言包含"""
@@ -35,7 +36,7 @@ class Assertions:
         except AssertionError as e:
             logger.error(f"断言失败: {str(e)}")
             raise
-    
+
     @staticmethod
     def assert_not_in(actual, expected, message="实际值在预期列表中"):
         """断言不包含"""
@@ -45,7 +46,7 @@ class Assertions:
         except AssertionError as e:
             logger.error(f"断言失败: {str(e)}")
             raise
-    
+
     @staticmethod
     def assert_true(condition, message="条件为假"):
         """断言为真"""
@@ -55,7 +56,7 @@ class Assertions:
         except AssertionError as e:
             logger.error(f"断言失败: {str(e)}")
             raise
-    
+
     @staticmethod
     def assert_false(condition, message="条件为真"):
         """断言为假"""
@@ -65,19 +66,20 @@ class Assertions:
         except AssertionError as e:
             logger.error(f"断言失败: {str(e)}")
             raise
-    
+
     @staticmethod
-    def assert_response_code(response, expected_code=200):
+    def assert_response_code(response, expected_code=0):
         """断言响应状态码"""
         try:
-            assert response.status_code == expected_code, \
-                f"响应状态码不正确 - 实际: {response.status_code}, 预期: {expected_code}"
-            logger.info(f"响应状态码断言成功: {response.status_code} == {expected_code}")
+            status_code = response.json().get("code")
+            assert status_code == expected_code, \
+                f"响应状态码不正确 - 实际: {status_code}, 预期: {expected_code}"
+            logger.info(f"响应状态码断言成功: {status_code} == {expected_code}")
         except AssertionError as e:
             logger.error(f"响应状态码断言失败: {str(e)}")
             logger.error(f"响应内容: {response.text}")
             raise
-    
+
     @staticmethod
     def assert_response_time(response, max_time=1):
         """断言响应时间"""
@@ -89,7 +91,7 @@ class Assertions:
         except AssertionError as e:
             logger.error(f"响应时间断言失败: {str(e)}")
             raise
-    
+
     @staticmethod
     def assert_json_path(response, json_path, expected_value=None):
         """
@@ -101,14 +103,14 @@ class Assertions:
         try:
             json_data = response.json()
             actual_value = jmespath.search(json_path, json_data)
-            
+
             if actual_value is None:
                 raise AssertionError(f"JSON路径不存在: {json_path}")
-            
+
             if expected_value is not None:
                 assert actual_value == expected_value, \
                     f"JSON路径值不匹配 - 路径: {json_path}, 实际: {actual_value}, 预期: {expected_value}"
-            
+
             logger.info(f"JSON路径断言成功: {json_path} = {actual_value}")
             return actual_value
         except json.JSONDecodeError:
@@ -121,7 +123,7 @@ class Assertions:
         except Exception as e:
             logger.error(f"断言JSON路径时发生错误: {str(e)}")
             raise
-    
+
     @staticmethod
     def assert_json_schema(response, schema):
         """断言JSON响应符合指定的JSON Schema"""
@@ -139,6 +141,7 @@ class Assertions:
         except Exception as e:
             logger.error(f"断言JSON Schema时发生错误: {str(e)}")
             raise
+
 
 # 实例化断言工具
 assertions = Assertions()

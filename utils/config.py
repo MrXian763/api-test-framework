@@ -1,65 +1,38 @@
-import os
 import yaml
-from dotenv import load_dotenv
 from pathlib import Path
 from utils.logger import logger
 
-class Config:
-    """配置管理类"""
-    def __init__(self):
-        self._config = {}
-        self._load_env()
-        self._load_config()
-    
-    def _load_env(self):
-        """加载环境变量"""
-        env_path = Path(".") / ".env"
-        if env_path.exists():
-            load_dotenv(dotenv_path=env_path)
-            logger.info("已加载.env文件中的环境变量")
-    
-    def _load_config(self):
-        """加载配置文件"""
-        env = os.getenv("TEST_ENV", "test")
-        config_path = Path("config") / f"{env}.yaml"
-        
-        if not config_path.exists():
-            logger.warning(f"未找到{env}环境的配置文件，使用默认配置")
-            config_path = Path("config") / "default.yaml"
-        
-        try:
-            with open(config_path, "r", encoding="utf-8") as f:
-                self._config = yaml.safe_load(f) or {}
-                logger.info(f"已加载{env}环境的配置文件: {config_path}")
-        except Exception as e:
-            logger.error(f"加载配置文件失败: {str(e)}")
-            self._config = {}
-    
-    def get(self, key, default=None, separator="."):
-        """
-        获取配置值
-        :param key: 配置键，支持嵌套键，如"api.base_url"
-        :param default: 默认值
-        :param separator: 分隔符
-        :return: 配置值
-        """
-        keys = key.split(separator)
-        value = self._config
-        
-        try:
-            for k in keys:
-                value = value[k]
-            return value
-        except (KeyError, TypeError):
-            return default
-    
-    def __getitem__(self, key):
-        """支持字典式访问"""
-        return self.get(key)
-    
-    def __contains__(self, key):
-        """检查配置是否包含某个键"""
-        return self.get(key, default=None) is not None
 
-# 单例配置对象
+class Config:
+    def __init__(self, env="test"):
+        self.env = env
+        # 配置文件路径（必须与实际文件位置一致）
+        self.default_config = Path("config") / "default.yaml"
+        self.env_config = Path("config") / f"{env}.yaml"
+        self.data = self._load()
+
+    def _load(self):
+        if self.env_config.exists():
+            with open(self.env_config, "r", encoding="utf-8") as f:
+                logger.info(f"加载环境配置: {self.env_config}")
+                return yaml.safe_load(f)
+        elif self.default_config.exists():
+            with open(self.default_config, "r", encoding="utf-8") as f:
+                logger.info(f"加载默认配置: {self.default_config}")
+                return yaml.safe_load(f)
+        else:
+            logger.error(f"配置文件不存在: {self.default_config}")
+            return {}
+
+    def get(self, key, default=None):
+        keys = key.split(".")
+        value = self.data
+        for k in keys:
+            if isinstance(value, dict) and k in value:
+                value = value[k]
+            else:
+                return default
+        return value
+
+
 config = Config()
