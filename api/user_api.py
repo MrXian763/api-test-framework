@@ -45,3 +45,10 @@ class UserAPI(BaseAPI):
             logger.error(f"登出过程发生错误: {str(e)}")
             self.remove_header("Authorization")
             return None
+
+    def register(self, checkPassword, userAccount, userPassword):
+        """用户注册"""
+        url = f"{self.base_path}/register"
+        data = {"checkPassword": checkPassword, "userAccount": userAccount, "userPassword": userPassword}
+        resp = self.post(url, json=data)
+        return resp

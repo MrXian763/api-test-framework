@@ -1,0 +1,144 @@
+[
+  {
+    "case_id": "USER_REGISTER_001",
+    "title": "使用合法数据注册成功",
+    "method": "POST",
+    "path": "/user/register",
+    "data": {
+      "checkPassword": "12345678",
+      "userAccount": "what3122",
+      "userPassword": "12345678"
+    },
+    "expected_code": 0
+  },
+  {
+    "case_id": "USER_REGISTER_002",
+    "title": "使用非法数据注册失败（用户名为空）",
+    "method": "POST",
+    "path": "/user/register",
+    "data": {
+      "checkPassword": "12345678",
+      "userAccount": "",
+      "userPassword": "12345678"
+    },
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  },
+  {
+    "case_id": "USER_REGISTER_003",
+    "title": "使用非法数据注册失败（密码为空）",
+    "method": "POST",
+    "path": "/user/register",
+    "data": {
+      "checkPassword": "",
+      "userAccount": "afasdljas11",
+      "userPassword": ""
+    },
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  },
+  {
+    "case_id": "USER_REGISTER_004",
+    "title": "使用非法数据注册失败（确认密码为空）",
+    "method": "POST",
+    "path": "/user/register",
+    "data": {
+      "checkPassword": "",
+      "userAccount": "aabbdd222",
+      "userPassword": "aabbdd222222"
+    },
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  },
+  {
+    "case_id": "USER_REGISTER_005",
+    "title": "使用非法数据注册失败（两次输入的密码不一致）",
+    "method": "POST",
+    "path": "/user/register",
+    "data": {
+      "checkPassword": "aabbdd222222",
+      "userAccount": "aabbdd22333344",
+      "userPassword": "aabbdd222999"
+    },
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  },
+  {
+    "case_id": "USER_REGISTER_006",
+    "title": "使用非法数据注册失败（密码长度不足8位）",
+    "method": "POST",
+    "path": "/user/register",
+    "data": {
+      "checkPassword": "1234",
+      "userAccount": "kklloi99",
+      "userPassword": "1234"
+    },
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  },
+  {
+    "case_id": "USER_REGISTER_007",
+    "title": "使用非法数据注册失败（账号长度不足4位）",
+    "method": "POST",
+    "path": "/user/register",
+    "data": {
+      "checkPassword": "12345678",
+      "userAccount": "ass",
+      "userPassword": "12345678"
+    },
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  },
+  {
+    "case_id": "USER_REGISTER_008",
+    "title": "使用非法数据注册失败（当前账号已被注册）",
+    "method": "POST",
+    "path": "/user/register",
+    "data": {
+      "checkPassword": "12345678",
+      "userAccount": "admin123123",
+      "userPassword": "12345678"
+    },
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  },
+  {
+    "case_id": "USER_REGISTER_009",
+    "title": "使用非法数据注册失败（账号长度大于8位）",
+    "method": "POST",
+    "path": "/user/register",
+    "data": {
+      "checkPassword": "12345678",
+      "userAccount": "adminadmin",
+      "userPassword": "12345678"
+    },
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  },
+  {
+    "case_id": "USER_REGISTER_010",
+    "title": "使用非法数据注册失败（账号存在中文字符）",
+    "method": "POST",
+    "path": "/user/register",
+    "data": {
+      "checkPassword": "12345678",
+      "userAccount": "adm中文",
+      "userPassword": "12345678"
+    },
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  },
+  {
+    "case_id": "USER_REGISTER_011",
+    "title": "使用非法数据注册失败（账号存在特殊字符）",
+    "method": "POST",
+    "path": "/user/register",
+    "data": {
+      "checkPassword": "12345678",
+      "userAccount": "ad♣⑤Ⅶ㏥",
+      "userPassword": "12345678"
+    },
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  }
+]

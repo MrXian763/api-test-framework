@@ -16,7 +16,7 @@ def test_post_user_login_success(user_api):
         success_case["data"]["userPassword"]
     )
 
-    assertions.assert_response_code(response, success_case["expected_status"])
+    assertions.assert_response_code(response, success_case["expected_code"])
     assertions.assert_response_time(response, 1)
 
     json_data = response.json()
@@ -45,9 +45,9 @@ def test_post_user_login_fail(user_api, fail_case):
         fail_case["data"]["userPassword"]
     )
 
-    assertions.assert_response_code(response, fail_case["expected_status"])
-    assertions.assert_response_time(response, 1)
-
     error_json = response.json()
     error_msg = error_json.get("message", "")
-    assertions.assert_equal(error_msg, "请求参数错误", "错误信息不一致")
+
+    assertions.assert_response_code(response, fail_case["expected_code"])
+    assertions.assert_equal(error_msg, fail_case['expected_message'])
+    assertions.assert_response_time(response, 1)

@@ -1,69 +1,89 @@
 [
-    {
-        "case_id": "USER_001",
-        "title": "使用合法数据登录成功",
-        "method": "POST",
-        "path": "/user/login",
-        "data": {
-            "userAccount": "admin",
-            "userPassword": "12345678"
-        },
-        "expected_status": 0,
-        "expected_fields": ["avatarUrl", "createTime", "email", "gender", "id", "phone", "profile", "tags", "token", "updateTime", "userAccount", "userRole", "userStatus", "username"]
+  {
+    "case_id": "USER_001",
+    "title": "使用合法数据登录成功",
+    "method": "POST",
+    "path": "/user/login",
+    "data": {
+      "userAccount": "admin",
+      "userPassword": "12345678"
     },
-    {
-        "case_id": "USER_002",
-        "title": "密码长度不足8位登录失败情况",
-        "method": "POST",
-        "path": "/user/login",
-        "data": {
-            "userAccount": "admin",
-            "userPassword": "1234"
-        },
-        "expected_status": 40000
+    "expected_code": 0,
+    "expected_fields": [
+      "avatarUrl",
+      "createTime",
+      "email",
+      "gender",
+      "id",
+      "phone",
+      "profile",
+      "tags",
+      "token",
+      "updateTime",
+      "userAccount",
+      "userRole",
+      "userStatus",
+      "username"
+    ]
+  },
+  {
+    "case_id": "USER_002",
+    "title": "密码长度不足8位登录失败情况",
+    "method": "POST",
+    "path": "/user/login",
+    "data": {
+      "userAccount": "admin",
+      "userPassword": "1234"
     },
-    {
-        "case_id": "USER_003",
-        "title": "账号长度不足4位登录失败情况",
-        "method": "POST",
-        "path": "/user/login",
-        "data": {
-            "userAccount": "adm",
-            "userPassword": "12345678"
-        },
-        "expected_status": 40000
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  },
+  {
+    "case_id": "USER_003",
+    "title": "账号长度不足4位登录失败情况",
+    "method": "POST",
+    "path": "/user/login",
+    "data": {
+      "userAccount": "adm",
+      "userPassword": "12345678"
     },
-    {
-        "case_id": "USER_004",
-        "title": "账号存在特殊字符情况",
-        "method": "POST",
-        "path": "/user/login",
-        "data": {
-            "userAccount": "♣⑤Ⅶ㏥123",
-            "userPassword": "12345678"
-        },
-        "expected_status": 40000
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  },
+  {
+    "case_id": "USER_004",
+    "title": "账号存在特殊字符情况",
+    "method": "POST",
+    "path": "/user/login",
+    "data": {
+      "userAccount": "♣⑤Ⅶ㏥123",
+      "userPassword": "12345678"
     },
-    {
-        "case_id": "USER_005",
-        "title": "账号不存在情况",
-        "method": "POST",
-        "path": "/user/login",
-        "data": {
-            "userAccount": "adminaabb",
-            "userPassword": "12345678"
-        },
-        "expected_status": 40000
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  },
+  {
+    "case_id": "USER_005",
+    "title": "账号不存在情况",
+    "method": "POST",
+    "path": "/user/login",
+    "data": {
+      "userAccount": "adminaabb",
+      "userPassword": "12345678"
     },
-    {
-        "case_id": "USER_006",
-        "title": "账号正确密码错误情况",
-        "method": "POST",
-        "path": "/user/login",
-        "data": {
-            "userAccount": "admin",
-            "userPassword": "12345678899"
-        },
-        "expected_status": 40000
-    }
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  },
+  {
+    "case_id": "USER_006",
+    "title": "账号正确密码错误情况",
+    "method": "POST",
+    "path": "/user/login",
+    "data": {
+      "userAccount": "admin",
+      "userPassword": "12345678899"
+    },
+    "expected_code": 40000,
+    "expected_message": "请求参数错误"
+  }
 ]
