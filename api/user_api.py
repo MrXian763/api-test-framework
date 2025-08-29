@@ -36,7 +36,9 @@ class UserAPI(BaseAPI):
         url = f"{self.base_path}/logout"
         try:
             response = self.post(url)
-            logger.info(f"登出响应状态码: {response.status_code}")
+            resp_json = response.json()
+
+            logger.info(f"登出响应状态码: {resp_json.get('code')}")
             self.remove_header("Authorization")
             logger.info("已登出，清除Authorization头")
             return response
@@ -51,4 +53,10 @@ class UserAPI(BaseAPI):
         url = f"{self.base_path}/register"
         data = {"checkPassword": checkPassword, "userAccount": userAccount, "userPassword": userPassword}
         resp = self.post(url, json=data)
+        return resp
+
+    def get_current_user(self):
+        """获取当前登录用户信息"""
+        url = f"{self.base_path}/current"
+        resp = self.get(url)
         return resp

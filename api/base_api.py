@@ -118,14 +118,11 @@ class BaseAPI:
         session_headers = dict(self.session.headers)
 
         if "headers" not in kwargs:
-            # 使用字典构造函数代替copy()
             kwargs["headers"] = dict(session_headers)
         else:
-            # 确保传入的headers是字典
             if kwargs["headers"] is None:
                 kwargs["headers"] = {}
             else:
-                # 合并headers，使用字典构造函数避免copy()
                 merged_headers = dict(session_headers)
                 merged_headers.update(kwargs["headers"])
                 kwargs["headers"] = merged_headers

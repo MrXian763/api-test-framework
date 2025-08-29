@@ -5,13 +5,13 @@ from utils.logger import logger
 from utils.data_handler import data_handler
 
 
-def test_post_user_login_success(user_api):
+def test_post_user_login_success(unauthenticated_user_api):
     """登录成功场景"""
     test_cases = data_handler.load_json_cases("user_api", "user_login_test_cases.json")
     success_case = test_cases[0]
 
     logger.info(f"执行测试用例: {success_case['case_id']} - {success_case['title']}")
-    response = user_api.login(
+    response = unauthenticated_user_api.login(
         success_case["data"]["userAccount"],
         success_case["data"]["userPassword"]
     )
@@ -37,10 +37,10 @@ def test_post_user_login_success(user_api):
     data_handler.load_json_cases("user_api", "user_login_test_cases.json")[1:],
     ids=lambda case: f"fail_{case['case_id']}_{case['title'][:10]}"
 )
-def test_post_user_login_fail(user_api, fail_case):
+def test_post_user_login_fail(unauthenticated_user_api, fail_case):
     """所有登录失败场景"""
     logger.info(f"执行测试用例: {fail_case['case_id']} - {fail_case['title']}")
-    response = user_api.login(
+    response = unauthenticated_user_api.login(
         fail_case["data"]["userAccount"],
         fail_case["data"]["userPassword"]
     )

@@ -1,0 +1,28 @@
+[
+  {
+    "case_id": "USER_GET_CURRENT_001",
+    "title": "获取当前用户信息成功",
+    "method": "GET",
+    "path": "/user/current",
+    "data": {},
+    "expected_code": 0,
+    "expected_resp_time": 1,
+    "expected_fields": [
+      "avatarUrl",
+      "createTime",
+      "email",
+      "gender",
+      "id",
+      "isDelete",
+      "phone",
+      "profile",
+      "tags",
+      "updateTime",
+      "userAccount",
+      "userPassword",
+      "userRole",
+      "userStatus",
+      "username"
+    ]
+  }
+]
