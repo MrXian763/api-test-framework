@@ -39,10 +39,10 @@ def test_post_user_register_fail(unauthenticated_user_api, fail_case):
 
 def generate_unique_account():
     """生成随机账号，避免正向用例预期错误"""
-    prefix = "test_"
+    prefix = "test"
     timestamp = str(int(time.time()))[-6:]
     random_num = random.randint(10, 99)
-    account = f"{prefix}{timestamp}_{random_num}"
+    account = f"{prefix}{timestamp}{random_num}"
     return account
 
 

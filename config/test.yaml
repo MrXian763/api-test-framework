@@ -15,7 +15,7 @@ database:
   host: "db-test.example.com"
   port: 3306
   user: "test_user"
-  password: "${DB_PASSWORD}"  # 从环境变量获取
+  password: "${DB_PASSWORD}"
   name: "test_db"
 
 test:

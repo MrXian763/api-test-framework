@@ -60,3 +60,10 @@ class UserAPI(BaseAPI):
         url = f"{self.base_path}/current"
         resp = self.get(url)
         return resp
+
+    def reset_user_pwd(self, oldPassword, newPassword, confirmPassword):
+        """修改用户密码"""
+        url = f"{self.base_path}/password"
+        resp = self.post(url, json={"oldPassword": oldPassword, "newPassword": newPassword,
+                                    "confirmPassword": confirmPassword})
+        return resp

@@ -15,7 +15,7 @@ def unauthenticated_user_api():
     logger.info("关闭用户API客户端")
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="module")
 def authenticated_user_api():
     """已认证的用户API客户端fixture（通用断言版）"""
     api_client = UserAPI()

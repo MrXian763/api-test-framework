@@ -11,8 +11,12 @@ class Assertions:
     def assert_equal(actual, expected, message="值不相等"):
         """断言相等"""
         try:
-            assert actual == expected, f"{message} - 实际值: {actual}, 预期值: {expected}"
-            logger.info(f"断言成功: {actual} == {expected}")
+            if actual is None or expected is None:
+                assert actual is expected, f"{message} - 实际值: {actual}, 预期值: {expected}"
+            else:
+                assert actual == expected, f"{message} - 实际值: {actual}, 预期值: {expected}"
+
+            logger.info(f"断言成功: {actual} {'is' if actual is None or expected is None else '=='} {expected}")
         except AssertionError as e:
             logger.error(f"断言失败: {str(e)}")
             raise
