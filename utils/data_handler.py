@@ -11,22 +11,24 @@ from utils.logger import logger
 class DataHandler:
     """增强版数据处理工具类（适配JSON测试用例和Java后端）"""
 
+    base_data_dir = Path("data")
+    json_case_dir = base_data_dir / "json"
+
     def __init__(self):
         self.fake = Faker("zh_CN")
-        self.base_data_dir = Path("data")
-        self.json_case_dir = self.base_data_dir / "json"
-        self.base_data_dir.mkdir(exist_ok=True)
-        self.json_case_dir.mkdir(exist_ok=True)
+        DataHandler.base_data_dir.mkdir(exist_ok=True)
+        DataHandler.json_case_dir.mkdir(exist_ok=True)
 
-    def load_json_cases(self, module_name, filename):
+    @staticmethod
+    def load_json_cases(module_name, filename):
         """
         从指定模块目录读取JSON测试用例（适配按模块组织的结构）
         :param module_name: 模块名（如"user_api"、"order_api"）
         :param filename: JSON文件名（如"test_create_user.json"）
         :return: 测试用例列表（单条用例自动转为列表）
         """
-        module_dir = self.json_case_dir / module_name
-        module_dir.mkdir(exist_ok=True)  # 自动创建模块目录
+        module_dir = DataHandler.json_case_dir / module_name
+        module_dir.mkdir(exist_ok=True)
         file_path = module_dir / filename
 
         try:
@@ -35,10 +37,10 @@ class DataHandler:
                 return [cases] if isinstance(cases, dict) else cases
         except FileNotFoundError:
             logger.error(f"JSON用例文件不存在: {file_path}")
-            return None
+            return []
         except Exception as e:
             logger.error(f"读取JSON用例失败: {str(e)}")
-            return None
+            return []
 
     def _replace_single_value(self, value):
         """替换单个值中的占位符"""

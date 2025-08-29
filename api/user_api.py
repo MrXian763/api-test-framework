@@ -51,7 +51,8 @@ class UserAPI(BaseAPI):
     def register(self, checkPassword, userAccount, userPassword):
         """用户注册"""
         url = f"{self.base_path}/register"
-        data = {"checkPassword": checkPassword, "userAccount": userAccount, "userPassword": userPassword}
+        data = {"checkPassword": checkPassword,
+                "userAccount": userAccount, "userPassword": userPassword}
         resp = self.post(url, json=data)
         return resp
 
@@ -66,4 +67,9 @@ class UserAPI(BaseAPI):
         url = f"{self.base_path}/password"
         resp = self.post(url, json={"oldPassword": oldPassword, "newPassword": newPassword,
                                     "confirmPassword": confirmPassword})
+        return resp
+
+    def reset_user_send_code(self, userAccount):
+        url = f"{self.base_path}/password/reset/code"
+        resp = self.post(url, json={"userAccount": userAccount})
         return resp

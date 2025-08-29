@@ -1,27 +1,27 @@
 import pytest
-from utils.data_handler import data_handler
+from utils.data_handler import DataHandler
 from utils.logger import logger
-from utils.assertions import assertions
+from utils.assertions import Assertions
 import random
 import time
 
 
 def test_post_user_register_success(unauthenticated_user_api):
     """注册成功场景"""
-    test_cases = data_handler.load_json_cases("user_api", "user_register_test_cases.json")
+    test_cases = DataHandler.load_json_cases("user_api", "user_register_test_cases.json")
     success_case = test_cases[0]
 
     logger.info(f"开始执行用例：{success_case['case_id']} - {success_case['title']}")
     response = unauthenticated_user_api.register(success_case['data']["checkPassword"], generate_unique_account(),
                                                  success_case['data']["userPassword"])
 
-    assertions.assert_response_code(response, success_case['expected_code'])
-    assertions.assert_response_time(response, 1)
+    Assertions.assert_response_code(response, success_case['expected_code'])
+    Assertions.assert_response_time(response, 1)
 
 
 @pytest.mark.parametrize(
     "fail_case",
-    data_handler.load_json_cases("user_api", "user_register_test_cases.json")[1:],
+    DataHandler.load_json_cases("user_api", "user_register_test_cases.json")[1:],
     ids=lambda case: f"fail_{case['case_id']}_{case['title'][:10]}"
 )
 def test_post_user_register_fail(unauthenticated_user_api, fail_case):
@@ -32,9 +32,9 @@ def test_post_user_register_fail(unauthenticated_user_api, fail_case):
     resp_json = response.json()
     err_msg = resp_json.get("message", "")
 
-    assertions.assert_response_code(response, fail_case['expected_code'])
-    assertions.assert_equal(err_msg, fail_case['expected_message'])
-    assertions.assert_response_time(response, 1)
+    Assertions.assert_response_code(response, fail_case['expected_code'])
+    Assertions.assert_equal(err_msg, fail_case['expected_message'])
+    Assertions.assert_response_time(response, 1)
 
 
 def generate_unique_account():
